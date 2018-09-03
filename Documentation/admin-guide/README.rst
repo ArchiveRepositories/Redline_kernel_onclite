@@ -1,10 +1,12 @@
-        Linux kernel release 4.x <http://kernel.org/>
+Linux kernel release 4.x <http://kernel.org/>
+=============================================
 
 These are the release notes for Linux version 4.  Read them carefully,
 as they tell you what this is all about, explain how to install the
 kernel, and what to do if something goes wrong.
 
-WHAT IS LINUX?
+What is Linux?
+--------------
 
   Linux is a clone of the operating system Unix, written from scratch by
   Linus Torvalds with assistance from a loosely-knit team of hackers across
@@ -15,16 +17,17 @@ WHAT IS LINUX?
   loading, shared copy-on-write executables, proper memory management,
   and multistack networking including IPv4 and IPv6.
 
-  It is distributed under the GNU General Public License - see the
+  It is distributed under the GNU General Public License v2 - see the
   accompanying COPYING file for more details.
 
-ON WHAT HARDWARE DOES IT RUN?
+On what hardware does it run?
+-----------------------------
 
   Although originally developed first for 32-bit x86-based PCs (386 or higher),
   today Linux also runs on (at least) the Compaq Alpha AXP, Sun SPARC and
   UltraSPARC, Motorola 68000, PowerPC, PowerPC64, ARM, Hitachi SuperH, Cell,
   IBM S/390, MIPS, HP PA-RISC, Intel IA-64, DEC VAX, AMD x86-64, AXIS CRIS,
-  Xtensa, Tilera TILE, AVR32, ARC and Renesas M32R architectures.
+  Xtensa, Tilera TILE, ARC and Renesas M32R architectures.
 
   Linux is easily portable to most general-purpose 32- or 64-bit architectures
   as long as they have a paged memory management unit (PMMU) and a port of the
@@ -34,7 +37,8 @@ ON WHAT HARDWARE DOES IT RUN?
   Linux has also been ported to itself. You can now run the kernel as a
   userspace application - this is called UserMode Linux (UML).
 
-DOCUMENTATION:
+Documentation
+-------------
 
  - There is a lot of documentation available both in electronic form on
    the Internet and in books, both Linux-specific and pertaining to
@@ -45,22 +49,17 @@ DOCUMENTATION:
 
  - There are various README files in the Documentation/ subdirectory:
    these typically contain kernel-specific installation notes for some
-   drivers for example. See Documentation/00-INDEX for a list of what
-   is contained in each file.  Please read the Changes file, as it
+   drivers for example. Please read the
+   :ref:`Documentation/process/changes.rst <changes>` file, as it
    contains information about the problems, which may result by upgrading
    your kernel.
 
- - The Documentation/DocBook/ subdirectory contains several guides for
-   kernel developers and users.  These guides can be rendered in a
-   number of formats:  PostScript (.ps), PDF, HTML, & man-pages, among others.
-   After installation, "make psdocs", "make pdfdocs", "make htmldocs",
-   or "make mandocs" will render the documentation in the requested format.
-
-INSTALLING the kernel source:
+Installing the kernel source
+----------------------------
 
  - If you install the full sources, put the kernel tarball in a
    directory where you have permissions (e.g. your home directory) and
-   unpack it:
+   unpack it::
 
      xz -cd linux-4.X.tar.xz | tar xvf -
 
@@ -74,12 +73,12 @@ INSTALLING the kernel source:
  - You can also upgrade between 4.x releases by patching.  Patches are
    distributed in the xz format.  To install by patching, get all the
    newer patch files, enter the top level directory of the kernel source
-   (linux-4.X) and execute:
+   (linux-4.X) and execute::
 
      xz -cd ../patch-4.x.xz | patch -p1
 
    Replace "x" for all versions bigger than the version "X" of your current
-   source tree, _in_order_, and you should be ok.  You may want to remove
+   source tree, **in_order**, and you should be ok.  You may want to remove
    the backup files (some-file-name~ or some-file-name.orig), and make sure
    that there are no failed patches (some-file-name# or some-file-name.rej).
    If there are, either you or I have made a mistake.
@@ -90,12 +89,12 @@ INSTALLING the kernel source:
    and you want to apply the 4.0.3 patch, you must not first apply the 4.0.1
    and 4.0.2 patches. Similarly, if you are running kernel version 4.0.2 and
    want to jump to 4.0.3, you must first reverse the 4.0.2 patch (that is,
-   patch -R) _before_ applying the 4.0.3 patch. You can read more on this in
-   Documentation/applying-patches.txt
+   patch -R) **before** applying the 4.0.3 patch. You can read more on this in
+   :ref:`Documentation/process/applying-patches.rst <applying_patches>`.
 
    Alternatively, the script patch-kernel can be used to automate this
    process.  It determines the current kernel version and applies any
-   patches found.
+   patches found::
 
      linux/scripts/patch-kernel linux
 
@@ -103,55 +102,58 @@ INSTALLING the kernel source:
    kernel source.  Patches are applied from the current directory, but
    an alternative directory can be specified as the second argument.
 
- - Make sure you have no stale .o files and dependencies lying around:
+ - Make sure you have no stale .o files and dependencies lying around::
 
      cd linux
      make mrproper
 
    You should now have the sources correctly installed.
 
-SOFTWARE REQUIREMENTS
+Software requirements
+---------------------
 
    Compiling and running the 4.x kernels requires up-to-date
    versions of various software packages.  Consult
-   Documentation/Changes for the minimum version numbers required
-   and how to get updates for these packages.  Beware that using
+   :ref:`Documentation/process/changes.rst <changes>` for the minimum version numbers
+   required and how to get updates for these packages.  Beware that using
    excessively old versions of these packages can cause indirect
    errors that are very difficult to track down, so don't assume that
    you can just update packages when obvious problems arise during
    build or operation.
 
-BUILD directory for the kernel:
+Build directory for the kernel
+------------------------------
 
    When compiling the kernel, all output files will per default be
    stored together with the kernel source code.
-   Using the option "make O=output/dir" allows you to specify an alternate
+   Using the option ``make O=output/dir`` allows you to specify an alternate
    place for the output files (including .config).
-   Example:
+   Example::
 
      kernel source code: /usr/src/linux-4.X
      build directory:    /home/name/build/kernel
 
-   To configure and build the kernel, use:
+   To configure and build the kernel, use::
 
      cd /usr/src/linux-4.X
      make O=/home/name/build/kernel menuconfig
      make O=/home/name/build/kernel
      sudo make O=/home/name/build/kernel modules_install install
 
-   Please note: If the 'O=output/dir' option is used, then it must be
+   Please note: If the ``O=output/dir`` option is used, then it must be
    used for all invocations of make.
 
-CONFIGURING the kernel:
+Configuring the kernel
+----------------------
 
    Do not skip this step even if you are only upgrading one minor
    version.  New configuration options are added in each release, and
    odd problems will turn up if the configuration files are not set up
    as expected.  If you want to carry your existing configuration to a
-   new version with minimal work, use "make oldconfig", which will
+   new version with minimal work, use ``make oldconfig``, which will
    only ask you for the answers to new questions.
 
- - Alternative configuration commands are:
+ - Alternative configuration commands are::
 
      "make config"      Plain text interface.
 
@@ -223,11 +225,11 @@ CONFIGURING the kernel:
    You can find more information on using the Linux kernel config tools
    in Documentation/kbuild/kconfig.txt.
 
- - NOTES on "make config":
+ - NOTES on ``make config``:
 
     - Having unnecessary drivers will make the kernel bigger, and can
       under some circumstances lead to problems: probing for a
-      nonexistent controller card may confuse your other controllers
+      nonexistent controller card may confuse your other controllers.
 
     - A kernel with math-emulation compiled in will still use the
       coprocessor if one is present: the math emulation will just
@@ -242,22 +244,23 @@ CONFIGURING the kernel:
       should probably answer 'n' to the questions for "development",
       "experimental", or "debugging" features.
 
-COMPILING the kernel:
+Compiling the kernel
+--------------------
 
  - Make sure you have at least gcc 3.2 available.
-   For more information, refer to Documentation/Changes.
+   For more information, refer to :ref:`Documentation/process/changes.rst <changes>`.
 
    Please note that you can still run a.out user programs with this kernel.
 
- - Do a "make" to create a compressed kernel image. It is also
-   possible to do "make install" if you have lilo installed to suit the
+ - Do a ``make`` to create a compressed kernel image. It is also
+   possible to do ``make install`` if you have lilo installed to suit the
    kernel makefiles, but you may want to check your particular lilo setup first.
 
    To do the actual install, you have to be root, but none of the normal
    build should require that. Don't take the name of root in vain.
 
- - If you configured any of the parts of the kernel as `modules', you
-   will also have to do "make modules_install".
+ - If you configured any of the parts of the kernel as ``modules``, you
+   will also have to do ``make modules_install``.
 
  - Verbose kernel compile/build output:
 
@@ -265,12 +268,12 @@ COMPILING the kernel:
    totally silent).  However, sometimes you or other kernel developers need
    to see compile, link, or other commands exactly as they are executed.
    For this, use "verbose" build mode.  This is done by passing
-   "V=1" to the "make" command, e.g.
+   ``V=1`` to the ``make`` command, e.g.::
 
      make V=1 all
 
    To have the build system also tell the reason for the rebuild of each
-   target, use "V=2".  The default is "V=0".
+   target, use ``V=2``.  The default is ``V=0``.
 
  - Keep a backup kernel handy in case something goes wrong.  This is
    especially true for the development releases, since each new release
@@ -278,7 +281,7 @@ COMPILING the kernel:
    backup of the modules corresponding to that kernel, as well.  If you
    are installing a new kernel with the same version number as your
    working kernel, make a backup of your modules directory before you
-   do a "make modules_install".
+   do a ``make modules_install``.
 
    Alternatively, before compiling, use the kernel config option
    "LOCALVERSION" to append a unique suffix to the regular kernel version.
@@ -308,13 +311,14 @@ COMPILING the kernel:
    reboot, and enjoy!
 
    If you ever need to change the default root device, video mode,
-   ramdisk size, etc.  in the kernel image, use the 'rdev' program (or
+   ramdisk size, etc.  in the kernel image, use the ``rdev`` program (or
    alternatively the LILO boot options when appropriate).  No need to
    recompile the kernel to change these parameters.
 
  - Reboot with the new kernel and enjoy.
 
-IF SOMETHING GOES WRONG:
+If something goes wrong
+-----------------------
 
  - If you have problems that seem to be due to kernel bugs, please check
    the file MAINTAINERS to see if there is a particular person associated
@@ -328,7 +332,7 @@ IF SOMETHING GOES WRONG:
    sense).  If the problem is new, tell me so, and if the problem is
    old, please try to tell me when you first noticed it.
 
- - If the bug results in a message like
+ - If the bug results in a message like::
 
      unable to handle kernel paging request at address C0000010
      Oops: 0002
@@ -345,26 +349,26 @@ IF SOMETHING GOES WRONG:
    help debugging the problem.  The text above the dump is also
    important: it tells something about why the kernel dumped code (in
    the above example, it's due to a bad kernel pointer). More information
-   on making sense of the dump is in Documentation/oops-tracing.txt
+   on making sense of the dump is in Documentation/admin-guide/oops-tracing.rst
 
  - If you compiled the kernel with CONFIG_KALLSYMS you can send the dump
-   as is, otherwise you will have to use the "ksymoops" program to make
+   as is, otherwise you will have to use the ``ksymoops`` program to make
    sense of the dump (but compiling with CONFIG_KALLSYMS is usually preferred).
    This utility can be downloaded from
-   ftp://ftp.<country>.kernel.org/pub/linux/utils/kernel/ksymoops/ .
+   https://www.kernel.org/pub/linux/utils/kernel/ksymoops/ .
    Alternatively, you can do the dump lookup by hand:
 
  - In debugging dumps like the above, it helps enormously if you can
    look up what the EIP value means.  The hex value as such doesn't help
    me or anybody else very much: it will depend on your particular
    kernel setup.  What you should do is take the hex value from the EIP
-   line (ignore the "0010:"), and look it up in the kernel namelist to
+   line (ignore the ``0010:``), and look it up in the kernel namelist to
    see which kernel function contains the offending address.
 
    To find out the kernel function name, you'll need to find the system
    binary associated with the kernel that exhibited the symptom.  This is
    the file 'linux/vmlinux'.  To extract the namelist and match it against
-   the EIP from the kernel crash, do:
+   the EIP from the kernel crash, do::
 
      nm vmlinux | sort | less
 
@@ -383,17 +387,18 @@ IF SOMETHING GOES WRONG:
 
    If you for some reason cannot do the above (you have a pre-compiled
    kernel image or similar), telling me as much about your setup as
-   possible will help.  Please read the REPORTING-BUGS document for details.
+   possible will help.  Please read the :ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
+   document for details.
 
  - Alternatively, you can use gdb on a running kernel. (read-only; i.e. you
    cannot change values or set break points.) To do this, first compile the
-   kernel with -g; edit arch/x86/Makefile appropriately, then do a "make
-   clean". You'll also need to enable CONFIG_PROC_FS (via "make config").
+   kernel with -g; edit arch/x86/Makefile appropriately, then do a ``make
+   clean``. You'll also need to enable CONFIG_PROC_FS (via ``make config``).
 
-   After you've rebooted with the new kernel, do "gdb vmlinux /proc/kcore".
+   After you've rebooted with the new kernel, do ``gdb vmlinux /proc/kcore``.
    You can now use all the usual gdb commands. The command to look up the
-   point where your system crashed is "l *0xXXXXXXXX". (Replace the XXXes
+   point where your system crashed is ``l *0xXXXXXXXX``. (Replace the XXXes
    with the EIP value.)
 
-   gdb'ing a non-running kernel currently fails because gdb (wrongly)
+   gdb'ing a non-running kernel currently fails because ``gdb`` (wrongly)
    disregards the starting offset for which the kernel is compiled.
