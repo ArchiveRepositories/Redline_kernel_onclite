@@ -36,8 +36,32 @@ case "$KBUILD_VERBOSE" in
 	;;
 esac
 
-# Generate a new symbol list file
-$CONFIG_SHELL $srctree/scripts/gen_autoksyms.sh "$new_ksyms_file"
+# We need access to CONFIG_ symbols
+. include/config/auto.conf
+
+# In case it doesn't exist yet...
+if [ -e "$cur_ksyms_file" ]; then touch "$cur_ksyms_file"; fi
+
+# Generate a new ksym list file with symbols needed by the current
+# set of modules.
+cat > "$new_ksyms_file" << EOT
+/*
+ * Automatically generated file; DO NOT EDIT.
+ */
+
+EOT
+sed -ns -e '3{s/ /\n/g;/^$/!p;}' "$MODVERDIR"/*.mod | sort -u |
+while read sym; do
+	if [ -n "$CONFIG_HAVE_UNDERSCORE_SYMBOL_PREFIX" ]; then
+		sym="${sym#_}"
+	fi
+	echo "#define __KSYM_${sym} 1"
+done >> "$new_ksyms_file"
+
+# Special case for modversions (see modpost.c)
+if [ -n "$CONFIG_MODVERSIONS" ]; then
+	echo "#define __KSYM_module_layout 1" >> "$new_ksyms_file"
+fi
 
 # Extract changes between old and new list and touch corresponding
 # dependency files.
