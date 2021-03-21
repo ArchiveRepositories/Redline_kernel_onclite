@@ -39,6 +39,7 @@ Module.symvers
 *.dwo
 *.su
 *.c.[012]*.*
+*.zip
 
 #
 # Top-level generic files
@@ -118,3 +119,9 @@ all.config
 
 # fetched Android config fragments
 kernel/configs/android-*.cfg
+
+#
+# Ignore AnyKernel3 & Out
+#
+AnyKernel3
+out
