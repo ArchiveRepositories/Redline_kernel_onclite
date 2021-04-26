@@ -4,15 +4,15 @@
 # Copyright (C) 2020-2021 Adithya R & johnmart19.
 
 SECONDS=0 # builtin bash timer
-ZIPNAME="Cartel-onclite-$(date '+%Y%m%d-%H%M').zip"
-TC_DIR="$HOME/tc/proton-clang"
+ZIPNAME="Redline-onclite-$(date '+%Y%m%d-%H%M').zip"
+TC_DIR="$HOME/proton-clang-build/install"
 DEFCONFIG="onc_defconfig"
 
 export PATH="$TC_DIR/bin:$PATH"
 
 if ! [ -d "$TC_DIR" ]; then
-echo "Proton clang not found! Cloning to $TC_DIR..."
-if ! git clone -q --depth=1 --single-branch https://github.com/kdrag0n/proton-clang $TC_DIR; then
+echo "Redline clang not found! Cloning to $TC_DIR..."
+if ! git clone -q --depth=1 --single-branch https://github.com/johnmart19/Redline_clang $TC_DIR; then
 echo "Cloning failed! Aborting..."
 exit 1
 fi
